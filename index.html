@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>העמוד של רומי</title>
+    <link rel="stylesheet" href="Romy_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+</head>
+
+<body>
+    
+<h1>
+    זה עמוד האינטרנט של רומי
+</h1>
+
+    <main>
+        <div class="cursor_stars">
+            <i class="fa-solid fa-star" style="font-size: large; position: absolute;" id="slower"></i>
+            <i class="fa-solid fa-star" style="font-size: small; position: absolute;" id="slow"></i>
+            <i class="fa-solid fa-star" style="font-size: x-large; position: absolute;" id="fast"></i>
+            <i class="fa-solid fa-star" style="font-size: larger; position: absolute;" id="faster"></i>
+            <i class="fa-solid fa-star" style="font-size: small; position: absolute;" id="slowish"></i>
+            <i class="fa-solid fa-star" style="font-size: x-small; position: absolute;" id="fastest"></i>
+            <i class="fa-solid fa-star" style="font-size: larger; position: absolute;" id="fastfast"></i>
+        </div>
+        <div class="name_wrapper">
+
+            <div class="letter">
+                י
+            </div>
+
+            <div class="letter">
+                מ
+            </div>
+            <div class="letter">
+                ו
+            </div>
+            <div class="letter">
+                ר
+            </div>
+        <br>
+            <a href="frogger.html" target="_blank">
+                <div id="frogger">תעזרי לצפרדע</div>
+            </a>
+
+            <a href="RockPaperGame.html" target="_blank">
+                <div id="rockPaper">אבניירו</div>
+            </a>
+            
+
+            <img src="unicorn1.png" alt="" class="pictures unione">
+            <img src="unicorn2.png" alt="" class="pictures unitwo">
+            <img src="unicorn3.png" alt="" class="pictures unithree">
+            <img src="unicorn4.png" alt="" class="pictures unifour">
+
+        </div>
+
+        <form action="">
+
+            <label for="unicorns">תלחצי עלי</label> <br>
+            <input type="checkbox" name="unicorns" id="unicorns_btn">
+            
+        </form>
+    </main>
+
+    <script>
+
+        var unicorns_btn = document.getElementById("unicorns_btn");
+        var pictures = document.querySelectorAll(".pictures");
+
+        unicorns_btn.addEventListener('click', apear)
+
+        function apear() {
+            if(unicorns_btn.checked){
+                console.log("I'm checked")
+                pictures.forEach(element => {
+                    element.classList.remove("pictures")
+                });
+            } else {
+                pictures.forEach(element => {
+                element.classList.add("pictures")
+
+                console.log("Not checked")
+                })
+            };
+        }
+
+        var cursor = document.querySelectorAll("i");
+
+        document.addEventListener('mousemove', function(e){
+            var x = e.clientX;
+            var y = e.clientY;
+            cursor.forEach(element => {
+                element.style.left = x +"px";
+                element.style.top = y +"px";
+                element.style.transform = "rotate("+x+"deg)";
+            });
+            
+        })
+
+        // var cursor = document.getElementById("faster");
+        
+        // document.addEventListener('mousemove', function(e){
+        //     var x = e.clientX;
+        //     var y = e.clientY;
+        //     cursor.style.left = x + "px";
+        //     cursor.style.top = y + "px";
+        // })
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+h1 {
+    text-align: center;
+    text-shadow: 2px 2px 2px rgb(196, 180, 10);
+    margin: 15px
+}
+#board {
+    position: relative;
+    height: 500px;
+    width: 700px;
+    margin: 0 auto;
+}
+.end {
+    box-sizing: border-box;
+    height: 36px;
+    background-color: rgb(14, 79, 0);
+    position: relative;
+    /* border-top-left-radius: 50%;
+    border-top-right-radius: 50%; */
+}
+
+#water {
+    box-sizing: border-box;
+    background-color: rgb(0, 60, 255);
+    position: relative;
+    height: 178px;
+    margin: 0;
+}
+.logs {
+    position: absolute;
+    background-color: brown;
+    width: 180px;
+    border-radius: 15%;
+    box-shadow: inset -2px -2px 2px black;
+}
+#log1 {
+    height: 64px;
+    bottom: 4px;
+    animation-name: moveLogRight;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+#log2 {
+    height: 50px;
+    bottom: 74px;
+    left: 520px;
+    animation-name: moveLogLeft;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+#log3{
+    height: 45px;
+    bottom: 127px;
+    animation-name: moveLogRight;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+#road {
+    position: relative;
+    background-color: black;
+    height: 208px;
+}
+
+#between {
+    background-color: blueviolet;
+    height: 43px;
+}
+
+#start {
+    background-color: chocolate;
+    height: 35px;
+
+}
+
+.frogger {
+    background-color: rgb(144, 226, 20);
+    width: 35px;
+    height:35px;
+    position: absolute;
+    bottom: 0;
+    left: 233px;
+    z-index: 4;
+    border-radius: 7px;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    transition: 100ms all linear;
+}
+
+.carLeft {
+    position: absolute;
+    width: 150px;
+    height: 60px;
+    background-color: rgb(223, 238, 7);
+    left: 550px;
+    bottom: 145px;
+    animation-name: moveCarLeft;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.carRight {
+    position: absolute;
+    width: 150px;
+    height: 60px;
+    background-color: rgb(223, 238, 7);
+    left: 0;
+    bottom: 15px;
+    animation-name: moveCarRight;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+
+}
+
+@keyframes moveCarLeft{
+    0%{left: 700px; width: 0;}
+    11%{left:550px; width: 150px}
+    11%{left: 550px;}
+    85%{left: 0; width: 150px; }
+    100%{left: 0; width: 0;}
+}
+
+@keyframes moveCarRight{
+    0%{left: 0; width: 0;}
+    15%{left:0; width: 150px}
+    11%{left: 0;}
+    85%{left: 550px; width: 150px;}
+    100%{left: 700px; width: 0;}
+}
+
+@keyframes moveLogRight{
+    0%{left: 0; width: 0;}
+    15%{left:0; width: 180px}
+    11%{left: 0;}
+    85%{left: 520px; width: 180px;}
+    100%{left: 700px; width: 0;}
+}
+@keyframes moveLogLeft{
+    0%{left: 700px; width: 0;}
+    11%{left:520px; width: 180px}
+    11%{left: 520px;}
+    85%{left: 0; width: 180px; }
+    100%{left: 0; width: 0;}
+}
+
+#won, #loose {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 700px;
+    height: 280px;
+    background-color: rgba(0, 0, 0, 0.518);
+    opacity: 0;
+    transition: 350ms all linear;
+    text-align: center;
+    padding-top: 220px;
+    font-size: xx-large;
+    color: white;
+}
+
+#won {
+    background-color: rgba(255, 20, 145, 0.495);
+}

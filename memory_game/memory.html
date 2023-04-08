@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <style>
+        main {
+            height: 100dvh;
+            background-color: gainsboro;
+            padding: 15px;
+        }
+
+        h1, h2 {
+            width: 450px;
+            margin: 10px auto;
+            text-align: center;
+        }
+
+        #gameBoard {
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 800px;
+            
+        }
+
+        .cards {
+            background-color: brown;
+            height: 150px;
+            width: 90px;
+            background-size: contain;
+            border-radius: 10%;
+            flex: 0 0 160px;
+            transition: 600ms opacity ease-out;
+        }
+
+        .card0 {
+            background-image: url('dog.jpeg');
+        }
+        .card1 {
+            background-image: url('dog.jpeg');
+        }
+        .card2{
+            background-image: url('unicorn.jpeg');
+        }
+        .card3 {
+            background-image: url('unicorn.jpeg');
+        }
+        .card4 {
+            background-image: url('olaf.jpeg');
+        }
+        .card5 {
+            background-image: url('olaf.jpeg');
+        }
+        .card6 {
+            background-image: url('teddy.jpeg');
+        }
+        .card7 {
+            background-image: url('teddy.jpeg');
+        }
+        .card8 {
+            background-image: url('gnome.jpeg');
+        }
+        .card9 {
+            background-image: url('gnome.jpeg');
+        }
+        .card10 {
+            background-image: url('rabbit.jpeg');
+        }
+        .card11 {
+            background-image: url('rabbit.jpeg');
+        }
+        .card12 {
+            background-image: url('moth.jpeg');
+        }
+        .card13 {
+            background-image: url('moth.jpeg');
+        }
+        .card14 {
+            background-image: url('cranes.jpeg');
+        }
+        .card15 {
+            background-image: url('cranes.jpeg');
+        }
+        .card16 {
+            background-image: url('bee.jpeg');
+        }
+        .card17 {
+            background-image: url('bee.jpeg');
+        }
+        .card18 {
+            background-image: url('lamp.jpeg');
+        }
+        .card19 {
+            background-image: url('lamp.jpeg');
+        }
+
+        .flippedCards {
+            background-image: url();
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>This is a memory game</h1>
+        <h2>Find all the pairs of cards</h2>
+        <h2 id="score">
+            <spane id="name1"></spane>: <span id="player1"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="name2"></span>: <span id="player2"></span>
+        </h2>
+    </header>
+
+    <main>
+        <div id="gameBoard">
+
+        </div>
+    </main>
+
+
+    <script>
+        var difficulty = prompt("Chhose difficulty level. 0 is the easiest.")
+        var pairsCounter = 0;
+        var name1 = prompt("Enter first player's name", "player A");
+        var name2 = prompt("Enter first player's name", "player B");
+        document.getElementById("name1").innerText = name1;
+        document.getElementById("name2").innerText = name2;
+        var playerToggle = true;
+        var player1 = document.getElementById("player1");
+        var player2 = document.getElementById("player2");
+        var scorePlayer1=0;
+        var scorePlayer2=0;
+        var cards = [];
+
+        var gameBoard = document.getElementById("gameBoard");
+        const numbers = [0, 1, 2 ,3, 4 ,5, 6, 7, 8, 9, 10, 11];
+        const numbersHard = [0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+        // randomizing the numbers order
+        const shuffled = numbers.sort(() => Math.random() - 0.5);
+        const shuffledHard = numbersHard.sort(() => Math.random() - 0.5);
+        var flippedCards = [];
+//checking which diffuclty the player chose and making cards according to difficulty
+        function addCards() {
+            if(difficulty == 0){
+                for(i=0; i<shuffled.length; i++) {
+                    // create a new div element for a card
+                    const newCard = document.createElement("div");
+                    newCard.classList.add("cards");
+                    newCard.classList.add("active");
+                    newCard.classList.add("card"+shuffled[i]);
+                    newCard.classList.add("flippedCards");
+
+                    // add the newly created card and its content into the gameBoard
+                    gameBoard.appendChild(newCard);
+                }    
+            } else {
+                gameBoard.style.width = "900px";
+                for(i=0; i<shuffledHard.length; i++) {
+                    // create a new div element for a card
+                    const newCard = document.createElement("div");
+                    newCard.classList.add("cards");
+                    newCard.classList.add("active");
+                    newCard.classList.add("card"+shuffledHard[i]);
+                    newCard.classList.add("flippedCards");
+
+                    // add the newly created card and its content into the gameBoard
+                    gameBoard.appendChild(newCard);
+                }    
+            }
+            
+        }
+
+        addCards();
+
+        function activeCards() {
+        // putting all the now created card elements inside an array
+            cards = document.querySelectorAll(".active");
+
+            for(i=0; i<cards.length; i++) {
+                cards[i].addEventListener("click", flippingCards)
+            }
+        }
+
+        activeCards();
+
+        function flippingCards(j) {
+                this.removeEventListener("click", flippingCards);
+                flippedCards.push(this);
+                if(flippedCards.length == 2){
+                    this.classList.remove("flippedCards")
+                    checkPair()
+                } else {
+                    this.classList.remove("flippedCards")
+                }
+        }
+
+        function checkPair() {
+            const backgroundImage1 = window.getComputedStyle(flippedCards[0]).getPropertyValue('background-image');
+            const backgroundImage2 = window.getComputedStyle(flippedCards[1]).getPropertyValue('background-image');
+
+            if(backgroundImage1 == backgroundImage2) {
+                pairsCounter++
+                score();
+                flippedCards[0].classList.remove("active");
+                flippedCards[1].classList.remove("active");
+                flippedCards[0].style.opacity = 0.3;
+                flippedCards[1].style.opacity = 0.3;
+
+                if(difficulty == 0) {
+                    if(pairsCounter == 6) {
+                        if(scorePlayer1 == scorePlayer2) {
+                            alert("It's a draw!")
+                        } else if(scorePlayer1 > scorePlayer2){
+                            alert(name1 + " is the winner!!!")
+                        } else if (scorePlayer2 > scorePlayer1) {
+                            alert(name2 + " is the winner!!!")
+                        }
+                    }    
+                } else {
+                    if(pairsCounter == 10) {
+                        if(scorePlayer1 == scorePlayer2) {
+                            alert("It's a draw!")
+                        } else if(scorePlayer1 > scorePlayer2){
+                            alert(name1 + " is the winner!!!")
+                        } else if (scorePlayer2 > scorePlayer1) {
+                            alert(name2 + " is the winner!!!")
+                        }
+                    }
+                }
+                
+                flippedCards=[];
+            } else {
+    // cards weren't matching so I switch player and reactivate all the eventlisteners
+                playerToggle = !playerToggle;
+                for(i=0; i<cards.length; i++) {
+                    cards[i].removeEventListener("click", flippingCards)
+                }
+                setTimeout(() => {
+                    flippedCards[0].classList.add("flippedCards");
+                    flippedCards[1].classList.add("flippedCards");
+                    flippedCards=[];
+                    activeCards();
+                }, 2000);
+                
+            }
+        }
+
+        function score () {
+            if(playerToggle) {
+                scorePlayer1++;
+                player1.innerText = scorePlayer1
+            } else {
+                scorePlayer2++;
+                player2.innerText = scorePlayer2
+            }
+        }
+
+    </script>
+</body>
+</html>

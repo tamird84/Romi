@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frogger</title>
+    <link rel="stylesheet" href="style-frogger.css">
+</head>
+
+<body>
+    
+    <h1>Help Frogger cross the road and the river!</h1>
+
+<main>
+    <div id="board">
+        <div class="end"></div>
+        <div id="water">
+            <div class="logs" id="log1"></div>
+            <div class="logs" id="log2"></div>
+            <div class="logs" id="log3"></div>
+        </div>
+        <div id="between">
+
+        </div>
+        <div id="road">
+            <div class="carLeft"></div>
+            <div class="carRight"></div>
+        </div>
+        <div id="start">
+            <div class="frogger"></div>
+        </div>
+
+        <div id="won">
+            YOU WON!!!
+        </div>
+        <div id="loose">
+            GAME OVER
+        </div>
+    </div>
+</main>
+
+<script>
+    var frogger = document.querySelector(".frogger");
+
+    document.addEventListener("keydown", moveFrog);
+
+    var froggerStyle = getComputedStyle(frogger);
+    var froggerLeft = parseInt(froggerStyle.left);
+    var froggerBottom = parseInt(froggerStyle.bottom);
+    var board = document.getElementById("board");
+    var carLeft = document.querySelector(".carLeft");
+    var carLeftStyle = getComputedStyle(carLeft);
+    var carRight = document.querySelector(".carRight");
+    var carRightStyle = getComputedStyle(carRight);
+    var logs = document.querySelectorAll(".logs");
+
+    var won = document.getElementById("won");
+    var loose =document.getElementById("loose");
+
+
+
+// checking which arrow the user pushed and movingn the frog accordingly.
+    function moveFrog(e) {
+        switch(e.key) {
+            case "ArrowLeft":
+                if(froggerLeft > 12){
+                    froggerLeft = froggerLeft - 13;
+                    frogger.style.left = froggerLeft + "px";
+                }
+            break;
+
+            case "ArrowRight":
+                if(froggerLeft < 660){
+                    froggerLeft = froggerLeft + 13;
+                    frogger.style.left = froggerLeft + "px";
+                }
+            break;
+            
+
+            case "ArrowUp":
+                if(froggerBottom < 470){
+                    froggerBottom = froggerBottom + 13;
+                    frogger.style.bottom = froggerBottom + "px";
+                }
+            break;
+            
+            case "ArrowDown":
+                if(froggerBottom > 0){
+                    froggerBottom = froggerBottom - 13;
+                    frogger.style.bottom = froggerBottom + "px";
+            }
+            break;
+        }
+    }
+// end of checking which arrows were pushed.
+
+    function froggerDead(){
+        if(parseInt(froggerStyle.left) > 670 ||
+        parseInt(froggerStyle.left) < 0
+        ){
+            loose.style.opacity = 1;
+            clearInterval(intervalId);
+            document.removeEventListener("keydown", moveFrog);
+        }
+    }
+
+    function checkIntersecting(rect1, rect2){
+        if(
+        rect1.left < rect2.right &&
+        rect2.left < rect1.right &&
+        rect1.bottom > rect2.top &&
+        rect2.bottom > rect1.top
+        ){
+            return true;
+        } else {return false}
+    }
+
+    intervalId = setInterval(() => {
+        var froggerRect = frogger.getBoundingClientRect();
+        var carLeftRect = carLeft.getBoundingClientRect();
+        var carRightRect = carRight.getBoundingClientRect();
+        var log1Rect = logs[0].getBoundingClientRect();
+        var log2Rect = logs[1].getBoundingClientRect();
+        var log3Rect = logs[2].getBoundingClientRect();
+// checking any hits from the 2 cars
+        if(checkIntersecting(carRightRect, froggerRect) || checkIntersecting(carLeftRect, froggerRect)){
+            loose.style.opacity = 1;
+            clearInterval(intervalId);
+            document.removeEventListener("keydown", moveFrog);
+         } 
+//section of moving the frog with the log if he is on it
+        if(checkIntersecting(log1Rect, froggerRect)){
+            froggerLeft = froggerLeft + 15;
+            frogger.style.left = froggerLeft + "px"; 
+            froggerDead();
+        }
+        if(checkIntersecting(log2Rect, froggerRect)){
+            froggerLeft = froggerLeft - 12;
+            frogger.style.left = froggerLeft + "px"; 
+            froggerDead();
+        }
+        if(checkIntersecting(log3Rect, froggerRect)){
+            froggerLeft = froggerLeft + 19;
+            frogger.style.left = froggerLeft + "px"; 
+            froggerDead();
+        }
+// end of moving frog with logs
+
+// this checks if the frog is touching the water without intersecting with any of the logs. that means he's dead
+        if(froggerBottom > 260 && !checkIntersecting(log1Rect, froggerRect) &&
+        !checkIntersecting(log2Rect, froggerRect) &&
+        !checkIntersecting(log3Rect, froggerRect) && froggerBottom < 460){
+            loose.style.opacity = 1;
+            clearInterval(intervalId);
+            document.removeEventListener("keydown", moveFrog);
+        } else if(froggerBottom > 462){
+            won.style.opacity = 1;
+            clearInterval(intervalId);
+            document.removeEventListener("keydown", moveFrog);
+        }
+    }, 100);
+    
+</script>
+
+</body>
+</html>
